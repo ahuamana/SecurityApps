@@ -6,12 +6,18 @@ import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -29,10 +35,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.paparazziteam.securityapplicationapp.R
 import com.paparazziteam.securityapplicationapp.ui.theme.Green40
 import com.paparazziteam.securityapplicationapp.usecases.PokemonState
@@ -44,6 +56,8 @@ fun HomeScreen(
     statePokemon : PokemonState,
     onClickRetrofitHilt: () -> Unit = {}
 ) {
+    val backgroundLottie by  rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.dot_pattern_background))
+    val lottieWorking by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.bottom_working_lottie))
 
     var isButtonVisible by remember { mutableStateOf(true) }
 
@@ -69,37 +83,101 @@ fun HomeScreen(
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        //background
+        LottieAnimation(composition = backgroundLottie, iterations = LottieConstants.IterateForever)
 
-        Spacer(modifier = Modifier.size(20.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
 
-        //portada_paparazziteam
-        Card(shape = androidx.compose.foundation.shape.CircleShape, modifier = Modifier.size(200.dp)) {
-            Image(
-                modifier = Modifier.fillMaxWidth(),
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Portada PaparazziTeam")
-        }
+            Spacer(modifier = Modifier.size(20.dp))
 
-        Spacer(modifier = Modifier.size(20.dp))
+            //portada_paparazziteam
 
-        AnimatedVisibility(visible = isButtonVisible) {
-            Button(
-                onClick = { onClickRetrofitHilt() }) {
+            Card(
+                shape = androidx.compose.foundation.shape.CircleShape,
+                modifier = Modifier.size(200.dp)) {
                 Image(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.ic_check_circle),
-                    contentDescription = "Retrofit + Hilt",
-                    colorFilter = ColorFilter.tint(Green40)
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-                Text(text = "RETROFIT + HILT")
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Portada PaparazziTeam")
             }
+
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 20.dp),
+                textAlign = TextAlign.Justify,
+                text = stringResource(R.string.description_home_title)
+            )
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                onClick = { onClickRetrofitHilt() }) {
+
+                AnimatedVisibility(visible = true) {
+                    Row() {
+                        Image(
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = R.drawable.ic_check_circle),
+                            contentDescription = "Retrofit + Hilt",
+                            colorFilter = ColorFilter.tint(Green40)
+                        )
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+                Text(text = "HTTPS (RETROFIT + HILT)")
+            }
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                onClick = { onClickRetrofitHilt() }) {
+
+                AnimatedVisibility(visible = true) {
+                    Row() {
+                        Image(
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = R.drawable.ic_check_circle),
+                            contentDescription = "SSL Pinning",
+                            colorFilter = ColorFilter.tint(Green40)
+                        )
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+                Text(text = "SSL PINNING")
+            }
+
+            Spacer(modifier = Modifier.size(20.dp))
+            //Lottie animation bottom
+            LottieAnimation(
+                modifier = Modifier.size(200.dp),
+                composition = lottieWorking,
+                iterations = LottieConstants.IterateForever
+            )
+
+            Spacer(modifier = Modifier.size(20.dp))
+            Row() {
+                Text(text = "Visitanos en:")
+                Image(painter = painterResource(id = R.drawable.ic_logo_youtube), contentDescription = "Logo Youtube")
+            }
+            Spacer(modifier = Modifier.size(20.dp))
         }
     }
+
 }
 
 
