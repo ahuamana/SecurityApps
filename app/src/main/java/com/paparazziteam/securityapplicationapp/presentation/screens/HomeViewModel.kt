@@ -49,6 +49,7 @@ class HomeViewModel @Inject constructor(
         getPokemonUseCase
             .invoke(name)
             .onStart {
+                isVisibleBypassHttps.value = VisibleStateWith(false)
                 _statePokemon.value = PokemonState.ShowLoading
             }.onEach {
                 withContext(Dispatchers.Main){
@@ -68,6 +69,7 @@ class HomeViewModel @Inject constructor(
         getPokemonUseCase
             .getPokemonInfoSsl(name)
             .onStart {
+                isVisibleBypassCertificatePinning.value = VisibleStateWith(false)
                 _statePokemon.value = PokemonState.ShowLoading
             }.onEach {
                 withContext(Dispatchers.Main){
