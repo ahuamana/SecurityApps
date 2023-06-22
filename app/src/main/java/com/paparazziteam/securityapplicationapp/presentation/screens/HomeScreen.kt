@@ -155,7 +155,7 @@ fun HomeScreen(
                         Spacer(modifier = Modifier.size(10.dp))
                     }
                 }
-                Text(text = "SSL PINNING")
+                Text(text = "SSL PINNING (RETROFIT + HILT)")
             }
 
             Spacer(modifier = Modifier.size(20.dp))
