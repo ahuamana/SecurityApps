@@ -44,7 +44,8 @@ class HomeViewModel @Inject constructor(
     val isVisibleBypassCertificatePinningState: StateFlow<VisibleStateWith> = isVisibleBypassCertificatePinning
 
     //HTTPS
-    fun getPokemonInfo(name:String) = viewModelScope.launch() {
+    //Dispatchers.IO -> Coroutines para operaciones de red, lectura y escritura de archivos
+    fun getPokemonInfo(name:String) = viewModelScope.launch(Dispatchers.IO) {
         getPokemonUseCase
             .invoke(name)
             .onStart {
@@ -63,6 +64,23 @@ class HomeViewModel @Inject constructor(
     }
 
     //HTTPS + Certificate Pinning
+    fun getPokemonInfoSsl(name:String) = viewModelScope.launch(Dispatchers.IO) {
+        getPokemonUseCase
+            .getPokemonInfoSsl(name)
+            .onStart {
+                _statePokemon.value = PokemonState.ShowLoading
+            }.onEach {
+                withContext(Dispatchers.Main){
+                    _statePokemon.value = PokemonState.Success(it)
+                    isVisibleBypassCertificatePinning.value = VisibleStateWith(true,R.drawable.ic_check_circle)
+                }
+            }.catch {
+                withContext(Dispatchers.Main){
+                    isVisibleBypassCertificatePinning.value = VisibleStateWith(true, R.drawable.ic_error)
+                    _statePokemon.value = PokemonState.Error(it)
+                }
+            }.launchIn(viewModelScope)
+    }
 
 
     fun openYoutube(context: Context) = viewModelScope.launch {

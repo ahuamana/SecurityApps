@@ -5,10 +5,14 @@ import com.paparazziteam.securityapplicationapp.framework.performNetworkFlow
 import javax.inject.Inject
 
 class PokemonRepository @Inject constructor(
-    val remoteDataSourcePokemon: RemoteDataSourcePokemon
+    private val remoteDataSourcePokemon: RemoteDataSourcePokemon
 ) {
 
     suspend fun getPokemonInfo(name: String) = performNetworkFlow {
         remoteDataSourcePokemon.getPokemonInfo(name)
+    }
+
+    suspend fun getPokemonInfoSsl(name: String) = performNetworkFlow {
+        remoteDataSourcePokemon.getPokemonInfoSsl(name)
     }
 }

@@ -8,6 +8,8 @@ class GetPokemonUseCase @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) {
     suspend operator fun invoke(name:String) = pokemonRepository.getPokemonInfo(name)
+
+    suspend fun getPokemonInfoSsl(name: String) = pokemonRepository.getPokemonInfoSsl(name)
 }
 
 

@@ -49,6 +49,7 @@ fun HomeScreen(
     httpsPlusSSL: HomeViewModel.VisibleStateWith,
     statePokemon : PokemonState,
     onClickRetrofitHilt: () -> Unit,
+    onClickRetrofitHiltSsl: () -> Unit,
     onClickYoutube: () -> Unit,
 ) {
     val backgroundLottie by  rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.dot_pattern_background))
@@ -141,7 +142,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
-                onClick = { onClickRetrofitHilt() }) {
+                onClick = { onClickRetrofitHiltSsl() }) {
 
                 AnimatedVisibility(visible = httpsPlusSSL.isVisible) {
                     Row() {
@@ -210,7 +211,8 @@ fun HomeSp() {
         onClickRetrofitHilt = { viewModel.getPokemonInfo("ditto") },
         onClickYoutube = {
             context.openUri(localContext.getString(R.string.youtube_channel))
-        }
+        },
+        onClickRetrofitHiltSsl = { viewModel.getPokemonInfoSsl("ditto") }
     )
 }
 
@@ -227,6 +229,9 @@ fun HomeScreenPrev() {
                 //viewModel.getPokemonInfo(pokemon)
             },
             onClickYoutube = {
+
+            },
+            onClickRetrofitHiltSsl = {
 
             }
         )
