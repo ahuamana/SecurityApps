@@ -23,3 +23,6 @@ To build and run Security Apps locally, follow these steps:
 3. Build and run the app on your Android device or emulator.
 
 Feel free to explore the codebase and documentation for a deeper understanding of the implemented security features and their integration into the app.
+
+## Contributing
+Contributions are welcome! If you find any issues or have suggestions for improvements, please create an issue or submit a pull request.
