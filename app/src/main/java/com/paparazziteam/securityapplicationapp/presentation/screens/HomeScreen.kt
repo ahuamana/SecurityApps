@@ -3,25 +3,31 @@ package com.paparazziteam.securityapplicationapp.presentation.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
@@ -38,6 +44,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.paparazziteam.securityapplicationapp.R
+import com.paparazziteam.securityapplicationapp.presentation.screens.ads.BannerAd
 import com.paparazziteam.securityapplicationapp.ui.theme.Green40
 import com.paparazziteam.securityapplicationapp.ui.theme.SecurityApplicationAppTheme
 import com.paparazziteam.securityapplicationapp.usecases.PokemonState
@@ -88,8 +95,19 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Card(
+                shape = RoundedCornerShape(0.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Transparent
+                ),
+            ) {
+                /*BannerAd(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp))*/
+            }
 
             Spacer(modifier = Modifier.size(20.dp))
+
 
             //portada_paparazziteam
 
@@ -160,33 +178,43 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.size(20.dp))
             //Lottie animation bottom
-            LottieAnimation(
-                modifier = Modifier.size(200.dp),
-                composition = lottieWorking,
-                iterations = LottieConstants.IterateForever
-            )
 
-            Spacer(modifier = Modifier.size(20.dp))
             Row(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Visitanos en: ",
-                    fontSize = 12.sp,
-                    letterSpacing = 0.sp,
+                LottieAnimation(
+                    modifier = Modifier.size(200.dp),
+                    composition = lottieWorking,
+                    iterations = LottieConstants.IterateForever
                 )
                 Card(
-                    shape = androidx.compose.foundation.shape.CircleShape,
-                    modifier = Modifier.size(25.dp)) {
-                    Image(
-                        modifier = Modifier.clickable(onClick = { onClickYoutube() }),
-                        painter = painterResource(id = R.drawable.ic_youtube), contentDescription = "Logo Youtube")
-                }
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFfd3832)
+                    ),
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 5.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Visitanos en: ",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            letterSpacing = 0.sp,
+                        )
+                        Card(
+                            shape = androidx.compose.foundation.shape.CircleShape,
+                            modifier = Modifier.size(25.dp)) {
+                            Image(
+                                modifier = Modifier.clickable(onClick = { onClickYoutube() }),
+                                painter = painterResource(id = R.drawable.ic_youtube), contentDescription = "Logo Youtube")
+                        }
 
+                    }
+                }
             }
-            Spacer(modifier = Modifier.size(20.dp))
         }
     }
 

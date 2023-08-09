@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Paparazzi Team</string>
     <string name="description_home_title">Potencia tus habilidades en seguridad con nuestra app de Ethical Hacking. Evalúa y fortalece la seguridad de los sistemas con herramientas avanzadas. ¡Protege tus sistemas con confianza!</string>
-    <string name="youtube_channel">https://www.youtube.com/channel/paparazziteamyt</string>
+    <string name="youtube_channel">https://www.youtube.com/c/PaparazziTeamYT</string>
+    <string name="paparazziteam_home_banner_id">ca-app-pub-3448457351810220/5901031775</string>
+    <string name="home_banner_id_prod">ca-app-pub-3448457351810220/9387166435</string>
+    <string name="paparazziteam_home_banner_id_test">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
