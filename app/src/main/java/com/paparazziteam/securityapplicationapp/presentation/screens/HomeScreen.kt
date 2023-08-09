@@ -108,16 +108,11 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .height(50.dp))
             }
+            Spacer(modifier = Modifier.size(10.dp))
 
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                color = Color.Gray,
-                thickness = 2.dp
-            )
+            Image(painter = painterResource(id = R.drawable.ic_divider_awesome), contentDescription = null)
 
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.size(10.dp))
 
 
             //portada_paparazziteam
@@ -206,8 +201,6 @@ fun HomeScreen(
                 }
 
             }
-
-            Spacer(modifier = Modifier.size(20.dp))
         }
     }
 
