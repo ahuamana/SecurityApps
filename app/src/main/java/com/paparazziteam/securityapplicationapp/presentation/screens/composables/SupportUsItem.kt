@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.paparazziteam.securityapplicationapp.presentation.screens.BannerScreen
 
 @Composable
 fun SupportUsItem() {
@@ -20,6 +21,8 @@ fun SupportUsItem() {
                 style = androidx.compose.ui.text.TextStyle(color = androidx.compose.ui.graphics.Color.Blue),
                 text = "Click aqui para ver anuncios", modifier = Modifier.padding(10.dp)
             )
+
+            BannerScreen()
 
         }
     }

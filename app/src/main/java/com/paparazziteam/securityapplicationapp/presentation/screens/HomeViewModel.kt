@@ -10,6 +10,7 @@ import com.paparazziteam.securityapplicationapp.R
 import com.paparazziteam.securityapplicationapp.common.openLink
 import com.paparazziteam.securityapplicationapp.usecases.GetPokemonUseCase
 import com.paparazziteam.securityapplicationapp.usecases.PokemonState
+import com.scottyab.rootbeer.RootBeer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,10 @@ class HomeViewModel @Inject constructor(
 
     private val isVisibleBypassCertificatePinning = MutableStateFlow<VisibleStateWith>(VisibleStateWith())
     val isVisibleBypassCertificatePinningState: StateFlow<VisibleStateWith> = isVisibleBypassCertificatePinning
+
+    //Root
+    private val isVisibleRootDetection = MutableStateFlow<VisibleStateWith>(VisibleStateWith())
+    val isVisibleRootDetectionState: StateFlow<VisibleStateWith> = isVisibleRootDetection
 
     //HTTPS
     //Dispatchers.IO -> Coroutines para operaciones de red, lectura y escritura de archivos
@@ -82,6 +87,13 @@ class HomeViewModel @Inject constructor(
                     _statePokemon.value = PokemonState.Error(it)
                 }
             }.launchIn(viewModelScope)
+    }
+
+    fun checkRootDetection(context: Context){
+        val rootDetector = RootBeer(context)
+        val isRooted = rootDetector.isRootedWithBusyBoxCheck
+        val isRootedWithSu = rootDetector.isRooted
+        isVisibleRootDetection.value = VisibleStateWith(true, if(isRooted || isRootedWithSu) R.drawable.ic_error else R.drawable.ic_check_circle)
     }
 
 

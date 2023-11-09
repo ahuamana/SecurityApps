@@ -13,7 +13,7 @@ android {
         applicationId "com.paparazziteam.securityapplicationapp"
         minSdk 26
         targetSdk 33
-        versionCode 3
+        versionCode 4
         versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -111,5 +111,8 @@ dependencies {
 
     //Admobs
     implementation 'com.google.android.gms:play-services-ads:22.2.0'
+
+    //Root protection
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
 
 }

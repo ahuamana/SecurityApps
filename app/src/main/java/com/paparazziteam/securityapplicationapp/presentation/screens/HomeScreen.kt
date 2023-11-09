@@ -57,9 +57,11 @@ import timber.log.Timber
 fun HomeScreen(
     https: HomeViewModel.VisibleStateWith,
     httpsPlusSSL: HomeViewModel.VisibleStateWith,
+    isVisibleRootDetection: HomeViewModel.VisibleStateWith,
     statePokemon : PokemonState,
     onClickRetrofitHilt: () -> Unit,
     onClickRetrofitHiltSsl: () -> Unit,
+    onRootDetection: () -> Unit,
     onClickYoutube: () -> Unit,
 ) {
     val backgroundLottie by  rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.dot_pattern_background))
@@ -104,13 +106,13 @@ fun HomeScreen(
                     containerColor = Color.Transparent
                 ),
             ) {
-                BannerAd(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp))
+                //Remove this line to show preview
+                /*
+               BannerScreen()*/
             }
             Spacer(modifier = Modifier.size(10.dp))
 
-            Image(painter = painterResource(id = R.drawable.ic_divider_awesome), contentDescription = null)
+
 
             Spacer(modifier = Modifier.size(10.dp))
 
@@ -185,6 +187,27 @@ fun HomeScreen(
             Spacer(modifier = Modifier.size(20.dp))
             //Lottie animation bottom
 
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                onClick = { onRootDetection() }) {
+
+                AnimatedVisibility(visible = isVisibleRootDetection.isVisible) {
+                    Row() {
+                        Image(
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = isVisibleRootDetection.icon?:R.drawable.ic_blank),
+                            contentDescription = "ROOT DETECTION",
+                            //colorFilter = ColorFilter.tint(Green40)
+                        )
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+                Text(text = "ROOT DETECTION")
+            }
+
+            Spacer(modifier = Modifier.size(20.dp))
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
@@ -201,6 +224,9 @@ fun HomeScreen(
                 }
 
             }
+
+
+
         }
     }
 
@@ -214,6 +240,7 @@ fun HomeSp() {
 
     val isVisibleHttps by viewModel.isVisibleBypassHttpsState.collectAsStateWithLifecycle()
     val isVisibleHttpsPlusSSL by viewModel.isVisibleBypassCertificatePinningState.collectAsStateWithLifecycle()
+    val isVisibleRootDetection by viewModel.isVisibleRootDetectionState.collectAsStateWithLifecycle()
 
     val context = LocalUriHandler.current
     val localContext = LocalContext.current
@@ -221,12 +248,23 @@ fun HomeSp() {
     HomeScreen(
         isVisibleHttps,
         isVisibleHttpsPlusSSL,
+        isVisibleRootDetection,
         statePokemon = statePokemon,
         onClickRetrofitHilt = { viewModel.getPokemonInfo("ditto") },
         onClickYoutube = {
             context.openUri(localContext.getString(R.string.youtube_channel))
         },
-        onClickRetrofitHiltSsl = { viewModel.getPokemonInfoSsl("ditto") }
+        onClickRetrofitHiltSsl = { viewModel.getPokemonInfoSsl("ditto") },
+        onRootDetection = { viewModel.checkRootDetection(localContext) }
+    )
+}
+
+
+@Composable
+fun BannerScreen() {
+    BannerAd(modifier = Modifier
+        .fillMaxWidth()
+        .height(50.dp)
     )
 }
 
@@ -237,6 +275,7 @@ fun HomeScreenPrev() {
         HomeScreen(
             https = HomeViewModel.VisibleStateWith(true, R.drawable.ic_error),
             httpsPlusSSL = HomeViewModel.VisibleStateWith(true, R.drawable.ic_check_circle),
+            isVisibleRootDetection = HomeViewModel.VisibleStateWith(true, R.drawable.ic_check_circle),
             statePokemon = PokemonState.Idle,
             onClickRetrofitHilt = {
                 val pokemon = "ditto"
@@ -247,9 +286,14 @@ fun HomeScreenPrev() {
             },
             onClickRetrofitHiltSsl = {
 
+            },
+            onRootDetection = {
+
             }
         )
     }
 
 }
+
+
 
