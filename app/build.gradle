@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.paparazziteam.securityapplicationapp'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.paparazziteam.securityapplicationapp"
         minSdk 26
-        targetSdk 33
+        targetSdk 34
         versionCode 4
         versionName "1.2.0"
 
