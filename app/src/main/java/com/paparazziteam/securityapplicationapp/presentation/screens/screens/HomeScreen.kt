@@ -42,7 +42,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.paparazziteam.securityapplicationapp.R
-import com.paparazziteam.securityapplicationapp.presentation.screens.HomeViewModel
+import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.HomeViewModel
 import com.paparazziteam.securityapplicationapp.presentation.screens.ads.BannerAd
 import com.paparazziteam.securityapplicationapp.presentation.screens.composables.FollowUsItem
 import com.paparazziteam.securityapplicationapp.ui.theme.SecurityApplicationAppTheme
@@ -88,9 +88,8 @@ fun HomeScreen(
 
 
     Box(modifier = Modifier.fillMaxSize()) {
-        //background
-        LottieAnimation(composition = backgroundLottie, iterations = LottieConstants.IterateForever)
 
+        LottieAnimation(composition = backgroundLottie, iterations = LottieConstants.IterateForever)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,23 +107,11 @@ fun HomeScreen(
                BannerScreen()*/
             }
             Spacer(modifier = Modifier.size(10.dp))
-
-
-
             Spacer(modifier = Modifier.size(10.dp))
-
 
             //portada_paparazziteam
 
-            Card(
-                shape = androidx.compose.foundation.shape.CircleShape,
-                modifier = Modifier.size(200.dp)) {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Portada PaparazziTeam")
-            }
-
+            TopBarHomeScreen()
 
             Spacer(modifier = Modifier.size(20.dp))
 
@@ -258,6 +245,7 @@ fun HomeSp(
         onRootDetection = { viewModel.checkRootDetection(localContext) }
     )
 }
+
 
 
 @Composable
