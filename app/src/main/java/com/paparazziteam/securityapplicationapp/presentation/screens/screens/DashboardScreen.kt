@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -22,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.paparazziteam.securityapplicationapp.presentation.screens.navigation.BottomNavItem
+import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +43,18 @@ fun DashboardScreen(controller: NavHostController = rememberNavController()) {
                 HomeSp(contentPadding = contentPadding)
             }
             composable(BottomNavItem.Encryption.route) {
-                EncryptionScreen()
+
+                val viewModel = hiltViewModel<EncryptionScreenViewModel>()
+
+                EncryptionScreen(
+                    modifier = Modifier,
+                    onClickEncrypt = { text ->
+                        viewModel.encryptText(text)
+                    },
+                    onClickDecrypt = { text ->
+                        viewModel.decryptText(text)
+                    }
+                )
             }
         }
     }
