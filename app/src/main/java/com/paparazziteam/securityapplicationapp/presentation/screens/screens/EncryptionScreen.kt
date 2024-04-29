@@ -34,14 +34,26 @@ import com.paparazziteam.securityapplicationapp.R
 @Composable
 fun EncryptionScreen(modifier: Modifier = Modifier,
                      onClickEncrypt: (String) -> Unit,
-                     onClickDecrypt: (String) -> Unit
+                     onClickDecrypt: (String) -> Unit,
+                     onTextChangeEncrypt: (String) -> Unit,
+                     onTextChangeDecrypt: (String) -> Unit,
+                     textEncrypt: String,
+                     textDecrypt: String,
+                     textOutputEncrypt: String,
+                     textOutputDecrypt: String,
 ) {
-
     val backgroundLottie by  rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.dot_pattern_background))
 
     Box {
         LottieAnimation(composition = backgroundLottie, iterations = LottieConstants.IterateForever)
-        ContentEncryptionScreen(modifier = modifier, onClickEncrypt = onClickEncrypt, onClickDecrypt = onClickDecrypt)
+        ContentEncryptionScreen(modifier = modifier, onClickEncrypt = onClickEncrypt, onClickDecrypt = onClickDecrypt,
+            onTextChangeEncrypt = { onTextChangeEncrypt(it) },
+            onTextChangeDecrypt = { onTextChangeDecrypt(it) },
+            textEncrypt = textEncrypt,
+            textDecrypt = textDecrypt,
+            outputTextEncrypt = textOutputEncrypt,
+            outputTextDecrypt = textOutputDecrypt
+        )
     }
 }
 
@@ -50,15 +62,14 @@ fun EncryptionScreen(modifier: Modifier = Modifier,
 private fun ContentEncryptionScreen(
     modifier: Modifier,
     onClickEncrypt: (String) -> Unit,
-    onClickDecrypt: (String) -> Unit
-
+    onClickDecrypt: (String) -> Unit,
+    onTextChangeEncrypt: (String) -> Unit,
+    onTextChangeDecrypt: (String) -> Unit,
+    textEncrypt: String,
+    textDecrypt: String,
+    outputTextEncrypt: String,
+    outputTextDecrypt: String
 ){
-
-    var inputTextEncrypt by remember { mutableStateOf("") }
-    var outputTextEncrypt by remember { mutableStateOf("") }
-
-    var inputTextDecrypt by remember { mutableStateOf("") }
-    var outputTextDecrypt by remember { mutableStateOf("") }
 
     Column(modifier = modifier
         .fillMaxSize()
@@ -83,8 +94,8 @@ private fun ContentEncryptionScreen(
 
 
         TextField(
-            value = inputTextEncrypt,
-            onValueChange = { inputTextEncrypt = it },
+            value = textEncrypt,
+            onValueChange = { onTextChangeEncrypt(it) },
             label = { Text("Texto a encriptar") },
             modifier = Modifier
                 .padding(top = 16.dp)
@@ -95,13 +106,13 @@ private fun ContentEncryptionScreen(
 
 
         Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
-            Button(onClick = { onClickEncrypt(inputTextEncrypt)}) {
+            Button(onClick = { onClickEncrypt(textEncrypt)}) {
                 Text(text = "Encriptar")
             }
         }
 
         TextField(value = outputTextEncrypt,
-            onValueChange = { outputTextEncrypt = it },
+            onValueChange = { /*outputTextEncrypt = it*/},
             label = { Text("Texto encriptado") },
             modifier = Modifier
                 .padding(top = 16.dp)
@@ -120,8 +131,8 @@ private fun ContentEncryptionScreen(
 
 
         TextField(
-            value = inputTextDecrypt,
-            onValueChange = { inputTextDecrypt = it },
+            value = textDecrypt,
+            onValueChange = { onTextChangeDecrypt(it)},
             label = { Text("Texto a desencriptar") },
             modifier = Modifier
                 .padding(top = 16.dp)
@@ -131,13 +142,13 @@ private fun ContentEncryptionScreen(
         Spacer(modifier = Modifier.size(16.dp))
 
         Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
-            Button(onClick = { onClickDecrypt(inputTextDecrypt) }) {
+            Button(onClick = { onClickDecrypt(textDecrypt)}) {
                 Text(text = "Desencriptar")
             }
         }
 
         TextField(value = outputTextDecrypt,
-            onValueChange = { outputTextDecrypt = it },
+            onValueChange = { /*outputTextDecrypt = it*/},
             label = { Text("Texto desencriptado") },
             modifier = Modifier
                 .padding(top = 16.dp)
@@ -155,6 +166,12 @@ private fun ContentEncryptionScreen(
 private fun EncryptionScreenPrev() {
     EncryptionScreen(
         onClickEncrypt = {},
-        onClickDecrypt = {}
+        onClickDecrypt = {},
+        onTextChangeEncrypt = {},
+        onTextChangeDecrypt = {},
+        textEncrypt = "",
+        textDecrypt = "",
+        textOutputEncrypt = "",
+        textOutputDecrypt = ""
     )
 }

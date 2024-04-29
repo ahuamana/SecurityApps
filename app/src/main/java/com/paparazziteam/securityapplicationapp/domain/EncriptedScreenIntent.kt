@@ -1,6 +1,6 @@
 package com.paparazziteam.securityapplicationapp.domain
 
-data class EncryptedScreenIntent(
+data class EncryptedState(
     val inputTextEncrypt: String = "",
     val outputTextEncrypt: String = "",
     val inputTextDecrypt: String = "",

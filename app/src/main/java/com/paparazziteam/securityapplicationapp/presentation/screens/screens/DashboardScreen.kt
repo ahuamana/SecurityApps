@@ -8,6 +8,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -22,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.paparazziteam.securityapplicationapp.domain.EncryptionViewIntent
 import com.paparazziteam.securityapplicationapp.presentation.screens.navigation.BottomNavItem
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
 
@@ -45,14 +48,28 @@ fun DashboardScreen(controller: NavHostController = rememberNavController()) {
             composable(BottomNavItem.Encryption.route) {
 
                 val viewModel = hiltViewModel<EncryptionScreenViewModel>()
+                val states by viewModel.intent.collectAsStateWithLifecycle()
 
                 EncryptionScreen(
+                    textEncrypt = states.inputTextEncrypt,
+                    textDecrypt = states.inputTextDecrypt,
+                    textOutputEncrypt = states.outputTextEncrypt,
+                    textOutputDecrypt = states.outputTextDecrypt,
                     modifier = Modifier,
                     onClickEncrypt = { text ->
                         viewModel.encryptText(text)
                     },
+
                     onClickDecrypt = { text ->
                         viewModel.decryptText(text)
+                    },
+
+                    onTextChangeEncrypt = { text ->
+                        viewModel.processIntent(EncryptionViewIntent.TextChangedEncrypt(text))
+                    },
+
+                    onTextChangeDecrypt = { text ->
+                        viewModel.processIntent(EncryptionViewIntent.TextChangedDecrypt(text))
                     }
                 )
             }
