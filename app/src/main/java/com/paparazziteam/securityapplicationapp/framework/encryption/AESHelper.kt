@@ -1,5 +1,6 @@
 package com.paparazziteam.securityapplicationapp.framework.encryption
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -66,14 +67,14 @@ object AESHelper {
     }
 
 
-    fun encryptText(text:String, key: SecretKey): String {
+    fun encryptText(text:String, key: SecretKey, context: Context): String {
         try {
             val cipher = Cipher.getInstance(TRANSFORMATION)
             cipher.init(Cipher.ENCRYPT_MODE, key)
 
             //Save Iv on Encrypted SharedPreferences
             val iv = cipher.iv
-            saveDataInKeystore(iv, KEY_ALIAS_IV)
+            saveDataInEncryptedSharedPreferences(iv, context)
 
             val encryption =  cipher.doFinal(text.toByteArray())
             return Base64.encodeToString(encryption, Base64.DEFAULT) ?: ""
@@ -86,28 +87,50 @@ object AESHelper {
         }
     }
 
-    private fun saveDataInKeystore(data: ByteArray, keyAlias: String) {
-        // Save data in the keystore
-        if (data.isEmpty()) return
-        val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
-        keyStore.load(null)
-        val entry = KeyStore.SecretKeyEntry(SecretKeySpec(data, ALGORITHM))
-        keyStore.setEntry(keyAlias, entry, null)
+    private fun saveDataInEncryptedSharedPreferences(data: ByteArray, context: Context) {
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secret_shared_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        val editor = sharedPreferences.edit()
+        editor.putString(KEY_ALIAS_IV, Base64.encodeToString(data, Base64.DEFAULT))
+        editor.apply()
     }
 
 
-    fun decryptText(encryptedText: String, key: SecretKey): String {
+
+    fun decryptText(encryptedText: String, key: SecretKey, context: Context): String {
         try {
             if(encryptedText.isEmpty()) return ""
             //Iv
             val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
             keyStore.load(null)
             val secretKey = keyStore.getKey(KEY_ALIAS, null) as SecretKey ?: return ""
-            val iv = secretKey.encoded
-            if(iv.isEmpty()) return ""
+            //Get Iv from Encrypted SharedPreferences
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                context,
+                "secret_shared_prefs",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+
+            val iv = sharedPreferences.getString(KEY_ALIAS_IV, "") ?: return ""
+            val ivBytes = Base64.decode(iv, Base64.DEFAULT)
 
             val cipher = Cipher.getInstance(TRANSFORMATION)
-            cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, iv))
+            cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(128, ivBytes))
             val decryptedText = cipher.doFinal(Base64.decode(encryptedText, Base64.DEFAULT))
             return String(decryptedText)
         } catch (e: Throwable) {
