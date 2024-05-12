@@ -24,6 +24,10 @@ fun RootNavigationGraph(navController: NavHostController = rememberNavController
 
         }
 
+        composable(route = Graph.FRIDA){
+
+        }
+
     }
     
 }
@@ -31,6 +35,7 @@ fun RootNavigationGraph(navController: NavHostController = rememberNavController
 object Graph {
     const val ROOT = "root"
     const val HOME = "home"
+    const val FRIDA = "frida"
     const val DETAILS = "details"
 }
 

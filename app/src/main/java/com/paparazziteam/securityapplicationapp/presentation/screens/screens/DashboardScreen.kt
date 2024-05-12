@@ -30,7 +30,8 @@ import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(controller: NavHostController = rememberNavController()) {
+fun DashboardScreen() {
+    val controller = rememberNavController()
     val itemsMenu = listOf(
         BottomNavItem.Home,
         BottomNavItem.Encryption
