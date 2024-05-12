@@ -1,6 +1,10 @@
 package com.paparazziteam.securityapplicationapp.presentation.screens.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -24,14 +28,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.paparazziteam.securityapplicationapp.data.fake.FakeFridaItems
 import com.paparazziteam.securityapplicationapp.domain.EncryptionViewIntent
 import com.paparazziteam.securityapplicationapp.presentation.screens.navigation.BottomNavItem
+import com.paparazziteam.securityapplicationapp.presentation.screens.navigation.addNestedGraphMenu
+import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.AESEncryptionParent
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen() {
-    val controller = rememberNavController()
+    val controller:NavHostController = rememberNavController()
     val itemsMenu = listOf(
         BottomNavItem.Home,
         BottomNavItem.Encryption
@@ -42,39 +50,9 @@ fun DashboardScreen() {
             BottomBarCustom(navController = controller, items = itemsMenu)
         }
     ) { contentPadding ->
-        NavHost(navController = controller, startDestination = BottomNavItem.Home.route) {
-            composable(BottomNavItem.Home.route) {
-                HomeSp(contentPadding = contentPadding)
-            }
-            composable(BottomNavItem.Encryption.route) {
 
-                val viewModel = hiltViewModel<EncryptionScreenViewModel>()
-                val states by viewModel.intent.collectAsStateWithLifecycle()
-
-                EncryptionScreen(
-                    textEncrypt = states.inputTextEncrypt,
-                    textDecrypt = states.inputTextDecrypt,
-                    textOutputEncrypt = states.outputTextEncrypt,
-                    textOutputDecrypt = states.outputTextDecrypt,
-                    modifier = Modifier,
-                    onClickEncrypt = { text ->
-                        viewModel.encryptText(text)
-                    },
-
-                    onClickDecrypt = { text ->
-                        viewModel.decryptText(text)
-                    },
-
-                    onTextChangeEncrypt = { text ->
-                        viewModel.processIntent(EncryptionViewIntent.TextChangedEncrypt(text))
-                    },
-
-                    onTextChangeDecrypt = { text ->
-                        viewModel.processIntent(EncryptionViewIntent.TextChangedDecrypt(text))
-                    }
-                )
-            }
-        }
+        //use a composable
+        addNestedGraphMenu(navController = controller)
     }
 }
 

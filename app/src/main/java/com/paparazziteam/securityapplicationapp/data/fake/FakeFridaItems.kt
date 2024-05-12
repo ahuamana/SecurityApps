@@ -2,6 +2,7 @@ package com.paparazziteam.securityapplicationapp.data.fake
 
 import com.paparazziteam.securityapplicationapp.R
 import com.paparazziteam.securityapplicationapp.domain.FridaItem
+import com.paparazziteam.securityapplicationapp.presentation.screens.navigation.EncryptionScreen
 
 object FakeFridaItems {
 
@@ -10,7 +11,8 @@ object FakeFridaItems {
             id = 1,
             name = "AES",
             description = "AES Encryption",
-            icon = R.drawable.ic_key
+            icon = R.drawable.ic_key,
+            route = EncryptionScreen.AESEncryption
         ),
         /*FridaItem(
             id = 2,
@@ -28,7 +30,8 @@ object FakeFridaItems {
             id = 4,
             name = "SHA",
             description = "SHA Encryption",
-            icon = R.drawable.ic_lock
+            icon = R.drawable.ic_lock,
+            route = EncryptionScreen.OtherEncryption
         ),
         /*FridaItem(
             id = 5,
@@ -40,7 +43,8 @@ object FakeFridaItems {
             id = 6,
             name = "HMAC",
             description = "HMAC Encryption",
-            icon = R.drawable.ic_lock
+            icon = R.drawable.ic_lock,
+            route = EncryptionScreen.OtherEncryption
         ),
         /*FridaItem(
             id = 7,
@@ -52,13 +56,15 @@ object FakeFridaItems {
             id = 8,
             name = "BCrypt",
             description = "BCrypt Encryption",
-            icon = R.drawable.ic_lock
+            icon = R.drawable.ic_lock,
+            route = EncryptionScreen.OtherEncryption
         ),
         FridaItem(
             id = 9,
             name = "SCrypt",
             description = "SCrypt Encryption",
-            icon = R.drawable.ic_lock
+            icon = R.drawable.ic_lock,
+            route = EncryptionScreen.OtherEncryption
         ),
         /*FridaItem(
             id = 10,

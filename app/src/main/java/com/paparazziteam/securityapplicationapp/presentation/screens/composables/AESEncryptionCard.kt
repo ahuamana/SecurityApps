@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,10 +45,10 @@ fun AESEncryptionCard(
     label: String,
     icon: Int,
     customColor : Color = Color.Unspecified,
-    onClickCard: () -> Unit = { }
+    onClickCard: () -> Unit,
     ) {
 
-    val animationStart by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.starts_lottie))
+    val animationStart by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(resId = R.raw.anim_gradient))
 
     //Create a card with image in the middle with a rounded corner and ramdom color
     val darkColors = listOf(
@@ -66,6 +67,8 @@ fun AESEncryptionCard(
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
+            //vertical card
+            .defaultMinSize(minHeight = 200.dp)
             .clip(shape = RoundedCornerShape(16.dp))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
@@ -78,7 +81,7 @@ fun AESEncryptionCard(
 
         ) {
 
-        Box(modifier = Modifier.height(200.dp)) {
+        Box {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -97,9 +100,17 @@ fun AESEncryptionCard(
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
+
+                LottieAnimation(
+                    //center the animation
+                    modifier = Modifier.size(0.dp),
+                    composition = animationStart,
+                    iterations = LottieConstants.IterateForever)
             }
-            LottieAnimation(composition = animationStart, iterations = LottieConstants.IterateForever)
+
+
         }
 
     }
