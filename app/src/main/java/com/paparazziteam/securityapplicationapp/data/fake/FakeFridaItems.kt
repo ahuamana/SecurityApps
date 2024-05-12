@@ -28,10 +28,10 @@ object FakeFridaItems {
         ),*/
         FridaItem(
             id = 4,
-            name = "SHA",
-            description = "SHA Encryption",
+            name = "Encrypted Shared Preferences",
+            description = "Shared Preferences Encryption",
             icon = R.drawable.ic_lock,
-            route = EncryptionScreen.OtherEncryption
+            route = EncryptionScreen.EncryptedSharedPreferences
         ),
         /*FridaItem(
             id = 5,
@@ -52,7 +52,7 @@ object FakeFridaItems {
             description = "PBKDF2 Encryption",
             icon = R.drawable.ic_lock
         ),*/
-        FridaItem(
+        /*FridaItem(
             id = 8,
             name = "BCrypt",
             description = "BCrypt Encryption",
@@ -65,7 +65,7 @@ object FakeFridaItems {
             description = "SCrypt Encryption",
             icon = R.drawable.ic_lock,
             route = EncryptionScreen.OtherEncryption
-        ),
+        ),*/
         /*FridaItem(
             id = 10,
             name = "Argon2",

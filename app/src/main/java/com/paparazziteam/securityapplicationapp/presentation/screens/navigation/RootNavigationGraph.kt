@@ -1,6 +1,7 @@
 package com.paparazziteam.securityapplicationapp.presentation.screens.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -100,6 +101,12 @@ fun NavGraphBuilder.addNestedGraphEncrypted(navController: NavHostController) {
             //TODO: Add other encryption
             Text(text = "Other Encryption")
         }
+
+        composable(EncryptionScreen.EncryptedSharedPreferences.value) {
+            Column {
+                Text(text = "Encrypted Shared Preferences")
+            }
+        }
     }
 }
 
@@ -123,5 +130,6 @@ sealed class BottomNavItem(val route: String, val title: String, val icon: Int) 
 
 sealed class EncryptionScreen(val value: String) {
     data object AESEncryption : EncryptionScreen("aes")
+    data object EncryptedSharedPreferences : EncryptionScreen("encrypted_shared_preferences")
     data object OtherEncryption : EncryptionScreen("other")
 }

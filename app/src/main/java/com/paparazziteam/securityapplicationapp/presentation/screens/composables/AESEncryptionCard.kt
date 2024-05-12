@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.paparazziteam.securityapplicationapp.R
 import timber.log.Timber
@@ -96,6 +97,8 @@ fun AESEncryptionCard(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
+                    //align center
+                    textAlign = TextAlign.Center,
                     text = label,
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White
