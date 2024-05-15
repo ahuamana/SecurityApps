@@ -33,6 +33,7 @@ import com.paparazziteam.securityapplicationapp.presentation.screens.screens.Enc
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.HomeSp
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.AESEncryptionParent
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.EncryptedSharedPreferencesScreen
+import com.paparazziteam.securityapplicationapp.presentation.screens.screens.general.VerySoonScreen
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptedSharedPreferencesViewModel
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
 
@@ -102,8 +103,7 @@ fun NavGraphBuilder.addNestedGraphEncrypted(navController: NavHostController) {
             )
         }
         composable(EncryptionScreen.OtherEncryption.value) {
-            //TODO: Add other encryption
-            Text(text = "Other Encryption")
+            VerySoonScreen()
         }
 
         composable(EncryptionScreen.EncryptedSharedPreferences.value) {

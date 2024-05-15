@@ -1,26 +1,23 @@
 package com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription
 
+
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.paparazziteam.securityapplicationapp.data.fake.FakeFridaItems
 import com.paparazziteam.securityapplicationapp.domain.FridaItem
 import com.paparazziteam.securityapplicationapp.presentation.screens.composables.AESEncryptionCard
 
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AESEncryptionParent(
     modifier: Modifier = Modifier,
@@ -33,7 +30,7 @@ fun AESEncryptionParent(
         contentPadding = PaddingValues(16.dp),
         state = rememberLazyStaggeredGridState(),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalItemSpacing = 16.dp
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         itemsIndexed(listItemFrida) { index, item ->
             AESEncryptionCard(

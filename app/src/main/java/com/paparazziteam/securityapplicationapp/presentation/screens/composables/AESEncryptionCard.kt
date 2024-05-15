@@ -33,8 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.paparazziteam.securityapplicationapp.R
 import timber.log.Timber
 import androidx.compose.ui.unit.dp
-import androidx.graphics.shapes.CornerRounding
-import androidx.graphics.shapes.RoundedPolygon
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
