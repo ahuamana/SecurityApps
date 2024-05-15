@@ -1,5 +1,6 @@
 package com.paparazziteam.securityapplicationapp.presentation.screens.navigation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,6 +32,8 @@ import com.paparazziteam.securityapplicationapp.presentation.screens.screens.Das
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.EncryptionScreen
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.HomeSp
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.AESEncryptionParent
+import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.EncryptedSharedPreferencesScreen
+import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptedSharedPreferencesViewModel
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
 
 
@@ -103,9 +107,25 @@ fun NavGraphBuilder.addNestedGraphEncrypted(navController: NavHostController) {
         }
 
         composable(EncryptionScreen.EncryptedSharedPreferences.value) {
-            Column {
-                Text(text = "Encrypted Shared Preferences")
-            }
+
+            val viewModel = hiltViewModel<EncryptedSharedPreferencesViewModel>()
+            val states by viewModel.intent.collectAsStateWithLifecycle()
+            val context = LocalContext.current
+
+            EncryptedSharedPreferencesScreen(
+                modifier = Modifier,
+                onClickEncrypt = { text ->
+                    viewModel.encryptedInEncryptedSharedPreferences(text)
+                },
+                onTextChangeEncrypt = { text ->
+                    viewModel.processIntent(EncryptionViewIntent.TextChangedEncrypt(text))
+                },
+                textEncrypt = states.inputTextEncrypt,
+                onClickDecrypt = {
+                    val text = viewModel.getEncryptedTextFromEncryptedSharedPreferences()
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+                },
+            )
         }
     }
 }
