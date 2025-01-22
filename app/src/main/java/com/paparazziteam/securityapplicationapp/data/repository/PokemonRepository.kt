@@ -15,4 +15,8 @@ class PokemonRepository @Inject constructor(
     suspend fun getPokemonInfoSsl(name: String) = performNetworkFlow {
         remoteDataSourcePokemon.getPokemonInfoSsl(name)
     }
+
+    suspend fun getPokemonHttp(name: String) = performNetworkFlow {
+        remoteDataSourcePokemon.getPokemonHttp(name)
+    }
 }

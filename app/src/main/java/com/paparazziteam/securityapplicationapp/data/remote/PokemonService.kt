@@ -15,6 +15,12 @@ interface PokemonService {
     suspend fun getPokemon(
         @Path("name") name: String
     ): Response<PokemonResponse>
+
+    @Headers("Content-Type: application/json")
+    @GET("pokemon/{name}")
+    suspend fun getPokemonHttp(
+        @Path("name") name: String
+    ): Response<PokemonResponse>
 }
 
 

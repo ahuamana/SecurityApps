@@ -1,5 +1,7 @@
 package com.paparazziteam.securityapplicationapp.framework.network
 
+import com.paparazziteam.securityapplicationapp.data.remote.HttpGeneralService
+import com.paparazziteam.securityapplicationapp.data.remote.HttpGeneralServiceImpl
 import com.paparazziteam.securityapplicationapp.data.remote.PokemonService
 import com.paparazziteam.securityapplicationapp.data.remote.PokemonServiceImpl
 import com.paparazziteam.securityapplicationapp.data.remote.PokemonServiceSsl
@@ -54,6 +56,20 @@ object NetworkModule {
     @HttpRetrofit
     @Singleton
     @Provides
+    fun provideRetrofitHttp(
+        @HttpOkHttpClient okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://pokeapi.co/api/v2/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+
+    @HttpsRetrofit
+    @Singleton
+    @Provides
     fun provideRetrofit(
         @HttpOkHttpClient okHttpClient: OkHttpClient
     ): Retrofit {
@@ -76,6 +92,8 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+
 }
 
 @Module
@@ -91,6 +109,10 @@ abstract class NetworkModuleBinds {
     @Singleton
     @Binds
     abstract fun providePokemonServiceSsl(pokemonService: PokemonServiceSslImpl): PokemonServiceSsl
+
+    @Singleton
+    @Binds
+    abstract fun provideGeneralService(httpGeneralServiceImpl: HttpGeneralServiceImpl): HttpGeneralService
 }
 
 
@@ -104,8 +126,12 @@ annotation class SslOkHttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class HttpRetrofit
+annotation class HttpsRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class SslRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class HttpRetrofit

@@ -33,6 +33,8 @@ import com.paparazziteam.securityapplicationapp.presentation.screens.screens.Enc
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.HomeSp
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.AESEncryptionParent
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.encription.EncryptedSharedPreferencesScreen
+import com.paparazziteam.securityapplicationapp.presentation.screens.screens.frida.FridaBottomScreen
+import com.paparazziteam.securityapplicationapp.presentation.screens.screens.frida.FridaBottomViewModel
 import com.paparazziteam.securityapplicationapp.presentation.screens.screens.general.VerySoonScreen
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptedSharedPreferencesViewModel
 import com.paparazziteam.securityapplicationapp.presentation.screens.viewmodels.EncryptionScreenViewModel
@@ -53,6 +55,7 @@ fun RootNavigationGraph(navController: NavHostController = rememberNavController
 
 @Composable
 fun addNestedGraphMenu(navController: NavHostController) {
+    val context = LocalContext.current
     NavHost(
         navController = navController,
         route = Graph.HOME,
@@ -71,6 +74,19 @@ fun addNestedGraphMenu(navController: NavHostController) {
                     listItemFrida = FakeFridaItems.getFridaItems())
             }
 
+        }
+
+        composable(BottomNavItem.Frida.route) {
+
+            val viewmodel = hiltViewModel<FridaBottomViewModel>()
+
+            FridaBottomScreen(
+                modifier = Modifier,
+                onCheckAdb = {
+                    val isActive = viewmodel.checkAdb()
+                    Toast.makeText(context, "ADB is enabled: $isActive", Toast.LENGTH_SHORT).show()
+                }
+            )
         }
 
         addNestedGraphEncrypted(navController = navController)
@@ -142,10 +158,10 @@ object Graph {
 }
 
 sealed class BottomNavItem(val route: String, val title: String, val icon: Int) {
-    data object Home : BottomNavItem("home", "Home", icon = R.drawable.ic_home)
-    data object Encryption : BottomNavItem("encryption", "Encryption", R.drawable.ic_air)
+    data object Home : BottomNavItem("home_bottom", "Home", icon = R.drawable.ic_home)
+    data object Encryption : BottomNavItem("encryption_bottom", "Encryption", R.drawable.ic_air)
     data object EncryptionDetails : BottomNavItem("encryption_details", "Encryption Details", R.drawable.ic_air)
-    data object Frida : BottomNavItem("frida", "Frida", com.paparazziteam.securityapplicationapp.R.drawable.ic_home)
+    data object Frida : BottomNavItem("frida_bottom", "Frida", com.paparazziteam.securityapplicationapp.R.drawable.ic_home)
 }
 
 sealed class EncryptionScreen(val value: String) {

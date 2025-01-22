@@ -42,7 +42,8 @@ fun DashboardScreen() {
     val controller:NavHostController = rememberNavController()
     val itemsMenu = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Encryption
+        BottomNavItem.Encryption,
+        BottomNavItem.Frida,
     )
 
     Scaffold(

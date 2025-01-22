@@ -33,6 +33,9 @@ class HomeViewModel @Inject constructor(
     private val isVisibleBypassHttps = MutableStateFlow<VisibleStateWith>(VisibleStateWith())
     val isVisibleBypassHttpsState: StateFlow<VisibleStateWith> = isVisibleBypassHttps
 
+    private val isVisibleBypassHttp = MutableStateFlow<VisibleStateWith>(VisibleStateWith())
+    val isVisibleBypassHttpState: StateFlow<VisibleStateWith> = isVisibleBypassHttp
+
     private val isVisibleBypassCertificatePinning = MutableStateFlow<VisibleStateWith>(
         VisibleStateWith()
     )
@@ -41,6 +44,26 @@ class HomeViewModel @Inject constructor(
     //Root
     private val isVisibleRootDetection = MutableStateFlow<VisibleStateWith>(VisibleStateWith())
     val isVisibleRootDetectionState: StateFlow<VisibleStateWith> = isVisibleRootDetection
+
+    //HTTP
+    fun getPokemonInfoHttp(name:String) = viewModelScope.launch(Dispatchers.IO) {
+        getPokemonUseCase
+            .getPokemonHttp(name)
+            .onStart {
+                isVisibleBypassHttp.value = VisibleStateWith(false)
+                _statePokemon.value = PokemonState.ShowLoading
+            }.onEach {
+                withContext(Dispatchers.Main){
+                    _statePokemon.value = PokemonState.Success(it)
+                    isVisibleBypassHttp.value = VisibleStateWith(true,R.drawable.ic_check_circle)
+                }
+            }.catch {
+                withContext(Dispatchers.Main){
+                    isVisibleBypassHttp.value = VisibleStateWith(true, R.drawable.ic_error)
+                    _statePokemon.value = PokemonState.Error(it)
+                }
+            }.launchIn(viewModelScope)
+    }
 
     //HTTPS
     //Dispatchers.IO -> Coroutines para operaciones de red, lectura y escritura de archivos

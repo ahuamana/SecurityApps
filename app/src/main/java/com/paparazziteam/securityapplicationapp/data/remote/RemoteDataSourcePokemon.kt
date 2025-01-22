@@ -5,7 +5,8 @@ import javax.inject.Inject
 
 class RemoteDataSourcePokemon @Inject constructor(
     private val pokemonService: PokemonService,
-    private val pokemonServiceSsl: PokemonServiceSsl
+    private val pokemonServiceSsl: PokemonServiceSsl,
+    private val httpGeneralService: HttpGeneralService
 ) : BaseDataSource() {
 
     suspend fun getPokemonInfo(name: String) = getResult (
@@ -17,4 +18,10 @@ class RemoteDataSourcePokemon @Inject constructor(
         call = { pokemonServiceSsl.getPokemon(name) },
         forceError = false
     )
+
+    suspend fun getPokemonHttp(name: String) = getResult (
+        call = { httpGeneralService.getPokemon(name) },
+        forceError = false
+    )
+
 }

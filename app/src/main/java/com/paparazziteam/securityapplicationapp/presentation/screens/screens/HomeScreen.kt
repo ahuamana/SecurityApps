@@ -51,10 +51,12 @@ import timber.log.Timber
 
 @Composable
 fun HomeScreen(
+    http: HomeViewModel.VisibleStateWith,
     https: HomeViewModel.VisibleStateWith,
     httpsPlusSSL: HomeViewModel.VisibleStateWith,
     isVisibleRootDetection: HomeViewModel.VisibleStateWith,
     statePokemon : PokemonState,
+    onClickRetrofitHttpOnly: () -> Unit,
     onClickRetrofitHilt: () -> Unit,
     onClickRetrofitHiltSsl: () -> Unit,
     onRootDetection: () -> Unit,
@@ -125,6 +127,27 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.size(20.dp))
 
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                onClick = { onClickRetrofitHttpOnly() }) {
+
+                AnimatedVisibility(visible = http.isVisible) {
+                    Row() {
+                        Image(
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = http.icon?:R.drawable.ic_blank),
+                            contentDescription = "Retrofit + Hilt",
+                            //colorFilter = ColorFilter.tint(Green40)
+                        )
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
+                }
+                Text(text = "HTTP (RETROFIT)")
+            }
+
+            Spacer(modifier = Modifier.size(20.dp))
 
             Button(
                 modifier = Modifier
@@ -228,11 +251,13 @@ fun HomeSp(
     val isVisibleHttps by viewModel.isVisibleBypassHttpsState.collectAsStateWithLifecycle()
     val isVisibleHttpsPlusSSL by viewModel.isVisibleBypassCertificatePinningState.collectAsStateWithLifecycle()
     val isVisibleRootDetection by viewModel.isVisibleRootDetectionState.collectAsStateWithLifecycle()
+    val isVisibleHttp by viewModel.isVisibleBypassHttpState.collectAsStateWithLifecycle()
 
     val context = LocalUriHandler.current
     val localContext = LocalContext.current
 
     HomeScreen(
+        http = isVisibleHttp,
         isVisibleHttps,
         isVisibleHttpsPlusSSL,
         isVisibleRootDetection,
@@ -241,6 +266,7 @@ fun HomeSp(
         onClickYoutube = {
             context.openUri(localContext.getString(R.string.youtube_channel))
         },
+        onClickRetrofitHttpOnly = { viewModel.getPokemonInfoHttp("ditto") },
         onClickRetrofitHiltSsl = { viewModel.getPokemonInfoSsl("ditto") },
         onRootDetection = { viewModel.checkRootDetection(localContext) }
     )
@@ -261,6 +287,7 @@ fun BannerScreen() {
 fun HomeScreenPrev() {
     SecurityApplicationAppTheme() {
         HomeScreen(
+            http = HomeViewModel.VisibleStateWith(true, R.drawable.ic_check_circle),
             https = HomeViewModel.VisibleStateWith(true, R.drawable.ic_error),
             httpsPlusSSL = HomeViewModel.VisibleStateWith(true, R.drawable.ic_check_circle),
             isVisibleRootDetection = HomeViewModel.VisibleStateWith(true, R.drawable.ic_check_circle),
@@ -273,6 +300,9 @@ fun HomeScreenPrev() {
 
             },
             onClickRetrofitHiltSsl = {
+
+            },
+            onClickRetrofitHttpOnly = {
 
             },
             onRootDetection = {
