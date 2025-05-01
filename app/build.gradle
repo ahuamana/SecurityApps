@@ -13,8 +13,8 @@ android {
         applicationId "com.paparazziteam.securityapplicationapp"
         minSdk 26
         targetSdk 35
-        versionCode 8
-        versionName "1.6.0"
+        versionCode 9
+        versionName "1.7.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -125,6 +125,9 @@ dependencies {
     //
     implementation "androidx.security:security-crypto:1.1.0-alpha06"
 
+
+    //Integrate rootBear
+    implementation "com.scottyab:rootbeer-lib:0.1.1"
 
 
 }

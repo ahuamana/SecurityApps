@@ -85,6 +85,14 @@ fun addNestedGraphMenu(navController: NavHostController) {
                 onCheckAdb = {
                     val isActive = viewmodel.checkAdb()
                     Toast.makeText(context, "ADB is enabled: $isActive", Toast.LENGTH_SHORT).show()
+                },
+                onCheckRootBearNormal = {
+                    val isActive = viewmodel.checkRootBearNormal()
+                    Toast.makeText(context, "RootBear detected: $isActive", Toast.LENGTH_SHORT).show()
+                },
+                onCheckRootBearBusyBox = {
+                    val isActive = viewmodel.checkRootBearBusyBox()
+                    Toast.makeText(context, "RootBear detected: $isActive", Toast.LENGTH_SHORT).show()
                 }
             )
         }

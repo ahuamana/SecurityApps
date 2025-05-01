@@ -10,21 +10,26 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun FridaBottomScreen(
     modifier: Modifier = Modifier,
-    onCheckAdb: () -> Unit
+    onCheckAdb: () -> Unit,
+    onCheckRootBearNormal: () -> Unit,
+    onCheckRootBearBusyBox: () -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
         verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
     ) {
 
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         // Frida Check ADB is enabled
         Button(
@@ -33,5 +38,37 @@ fun FridaBottomScreen(
         ) {
             Text(text = "Check ADB is enabled")
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Check Root with RootBear normal
+        Button(
+            onClick = { onCheckRootBearNormal() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Check Root with RootBear")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Check Root with RootBear busybox
+        Button(
+            onClick = { onCheckRootBearBusyBox() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Check Root with RootBear busybox")
+        }
+
     }
+}
+
+@Preview
+@Composable
+private fun FridaBottomScreenPrev() {
+    FridaBottomScreen(
+        modifier = Modifier.fillMaxSize(),
+        onCheckAdb = {},
+        onCheckRootBearNormal = {},
+        onCheckRootBearBusyBox = {}
+    )
 }

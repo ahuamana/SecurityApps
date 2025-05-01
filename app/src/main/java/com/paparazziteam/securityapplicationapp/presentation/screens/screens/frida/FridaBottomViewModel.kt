@@ -3,6 +3,7 @@ package com.paparazziteam.securityapplicationapp.presentation.screens.screens.fr
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.paparazziteam.securityapplicationapp.framework.adb.AdbDetectorManager
+import com.paparazziteam.securityapplicationapp.framework.root.PTRootDetector
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -17,6 +18,16 @@ class FridaBottomViewModel @Inject constructor(
         val manager = AdbDetectorManager(context)
         val isActive = manager.isAdbEnabledState()
         return isActive
+    }
+
+    fun checkRootBearNormal():Boolean {
+        val rootChecker = PTRootDetector(context)
+        return rootChecker.isRootNormal()
+    }
+
+    fun checkRootBearBusyBox():Boolean {
+        val rootChecker = PTRootDetector(context)
+        return rootChecker.isRootedWithBusyBoxCheck()
     }
 
 }
